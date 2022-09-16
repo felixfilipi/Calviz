@@ -21,8 +21,7 @@ std::string util::replace_all(std::string words, std::string src, std::string de
 std::string util::replace(std::string &s, std::string src, std::string dest){
   size_t pos;
   pos = s.find(src, 0);
-  s.replace(pos, src.length(), dest);
-  return s;
+  return s.replace(pos, src.length(), dest);
 };
 
 std::string util::ltrim(std::string s){
@@ -91,6 +90,19 @@ bool util::is_number(const std::string &s){
   };
   return !s.empty() && it == s.end();
 };
+
+std::vector<double> util::parse_to_number(const std::string s){
+    std::vector<double> res;
+    std::string clean_str;
+    clean_str = util::clean_space(s);
+    std::stringstream ss(clean_str);
+    std::string word;
+    while(!ss.eof()){
+      getline(ss, word, ',');
+      res.push_back(std::stoi(word));
+    };
+    return res;
+}
 
 /* 
    -- Not optimized code for learning purposes. Don't use!!

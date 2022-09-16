@@ -39,6 +39,7 @@ std::tuple<std::vector<std::string>, std::vector<std::string>> Differrential::Ge
 std::vector<std::string> Differrential::Differ_each_parse(std::vector<std::string> Parsed_expr){
   std::vector<std::string> diff_each;
   std::string tmp_str, tmp_coeff, tmp_pow, cf;
+  int i = 0;
   bool found;
   
   for(std::string c : Parsed_expr){
@@ -57,10 +58,13 @@ std::vector<std::string> Differrential::Differ_each_parse(std::vector<std::strin
       diff_each.push_back(cf);
     }else if(util::is_number(tmp_coeff) == true && found == false){
       diff_each.push_back("0");
+    }else if(c == Parsed_expr[i] && (c.find("*") != std::string::npos == false)){
+      diff_each.push_back("0");
     }else{
       tmp_str = util::replace_all(c, "x", "1");
       diff_each.push_back(std::to_string((int) te_interp(tmp_str.c_str(), 0)));
     };
+    i++;
   };
   return diff_each;
 };
@@ -93,6 +97,7 @@ std::vector<std::tuple<std::string, std::vector<double>>> Differrential::Process
     tie(Operator, Parse) = Get_Operator_and_Parse(curr_expr); 
     Diff_Parse = Differ_each_parse(Parse);
     Result = Parsed_Diff_to_Expr(Diff_Parse, Operator);
+    Result = preprocessing(Result);
     Differ_Expr.push_back(Result);
     curr_expr = Result;
   };

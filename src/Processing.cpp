@@ -14,7 +14,7 @@ std::vector<double> Processing::interval(std::vector<double> &vec_in){
     res.push_back(std::abs(y));
   };
   return res;
-};
+}
     
 
 void Processing::Diff_no_RSD(int times, std::string expr, std::string x_str){
@@ -37,38 +37,36 @@ void Processing::Diff_no_RSD(int times, std::string expr, std::string x_str){
   };
 
   delete d;
-};
+}
 
 void Processing::No_Diff_No_RSD(std::string expr, std::string x_str){
-  
+
   Polynomial *poly = new Polynomial(expr);
-  
   tie(clean_expr, x_result) = poly->getResult(x_str);
   interval_res = interval(x_result);
-
   delete poly;
-};
+}
 
 std::vector<double> Processing::get_result_props(){
   return x_result;
-};
+}
 
 std::vector<double> Processing::getInterval(){
   return interval_res;
-};
+}
 
 std::string Processing::getCleanExpr(){
   return clean_expr;
-};
+}
 
 std::vector<std::string> Processing::get_All_Derivative_Expr(){
   return all_derivative_expr;
-};
+}
 
 std::vector<std::vector<double>> Processing::get_All_Interval(){
   return multiple_interval;
-};
+}
 
 std::vector<std::vector<double>> Processing::get_All_Derivative_Result(){
   return all_derivative_result;
-};
+}
