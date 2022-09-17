@@ -1,4 +1,10 @@
 # Calviz
+
+![](https://img.shields.io/github/last-commit/felixfilipi/Calviz)
+![](https://img.shields.io/badge/Beta-V1.0.0-red)
+![](https://img.shields.io/github/issues/felixfilipi/Calviz)
+![](https://img.shields.io/github/repo-size/felixfilipi/Calviz)
+
 Calviz is an abbreviation of Calculus Visualizer which is used as visualizing tool for various calculations of math expressions. Calviz built on C++ to provide high-performance calculation speed in order to give the best user experience for massive analysis of the polynomial expression.
 
 
@@ -9,7 +15,7 @@ Calviz is an abbreviation of Calculus Visualizer which is used as visualizing to
 * Interval calculation each Result.
 * Root Squared Interval.
 * High performance calculation.
-
+* Responsive Design.
 
 
 # Running Application.
