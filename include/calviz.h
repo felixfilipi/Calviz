@@ -43,6 +43,8 @@ private slots:
     void do_Processing();
     void add_Chart(QString, std::vector<double>, std::string);
     void add_Chart(QString, std::vector<std::string>, std::vector<std::vector<double>>, int, QString);
+    void add_Chart(QString, std::string, std::vector<std::vector<double>>, std::vector<double>, std::vector<double>);
+    void add_Chart(QString, std::vector<std::string>, std::vector<std::vector<std::vector<double>>>);
     void clean_visualization();
 
 private:

@@ -3,6 +3,7 @@
 #include "include/Processing.hpp"
 #include "include/RSD.hpp"
 #include "include/Utility.hpp"
+#include<string>
 #include<QtWidgets>
 #include <QPushButton>
 #include<QDialog>
@@ -33,7 +34,6 @@ Calviz::Calviz(QWidget *parent) :
 
     visualizeGroupBox = new QGroupBox(tr("Your Visualization"));
     visualizeGroupBox->setLayout(scrollBoxLayout);
-    visualizeGroupBox->setLayout(visualizeLayout);
 
     processingLayout = new QVBoxLayout;
     processingLayout->addWidget(inputGroupBox);
@@ -210,14 +210,141 @@ void Calviz::add_Chart(QString x_val, std::vector<std::string> x_in, std::vector
     }
 
     visualizeLayout->addLayout(rowLayout, row, 0);
-    if(in_deriv <= 3){
-        visualizeWidget->setMinimumWidth(500);
-    }else if(in_deriv > 3 && in_deriv <= 6){
-        visualizeWidget->setMinimumWidth(2000);
+    if(in_deriv <= 2){
+        visualizeWidget->setMinimumWidth(1500);
+    }else if(in_deriv > 2 && in_deriv <= 4){
+        visualizeWidget->setMinimumWidth(2500);
+    }else if(in_deriv > 4 && in_deriv <= 7){
+        visualizeWidget->setMinimumWidth(3500);
     }else{
-        visualizeWidget->setMinimumWidth(3000);
+        visualizeWidget->setMinimumWidth(4500);
+    }
+}
+
+void Calviz::add_Chart(QString x_val, std::string x_in, std::vector<std::vector<double>> y, std::vector<double> result, std::vector<double> interval){
+
+    QChartView *chartView;
+    QLineSeries *series;
+    QGridLayout *rowLayout;
+    QChart *chart;
+    QLabel *chartLabel;
+    QString ttl;
+    std::string label;
+
+    rowLayout = new QGridLayout;
+    std::vector<double> x = util::parse_to_number(x_val.toStdString());
+
+    // Result
+
+    label = "Result";
+    chartLabel = new QLabel(tr(label.c_str()));
+    rowLayout->addWidget(chartLabel, 0, 0);
+
+    series = new QLineSeries();
+    for( int j = 0 ; j <= result.size() - 1; j++){
+        series->append(x[j], result[j]);
+    };
+    chart = new QChart();
+    chart->legend()->hide();
+    chart->addSeries(series);
+    chart->createDefaultAxes();
+    ttl = QString::fromUtf8(x_in.c_str());
+    chart->setTitle(ttl);
+
+    chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    rowLayout->addWidget(chartView, 0 , 1);
+
+    rowLayout->setColumnStretch(0, 1);
+    rowLayout->setColumnStretch(1, 3);
+    rowLayout->setRowStretch(0, 2);
+
+    for(int i = 0; i <= y.size() - 1; i++){
+        label = std::to_string(i+1) + " Root Squared Interval";
+        chartLabel = new QLabel(tr(label.c_str()));
+        rowLayout->addWidget(chartLabel, i+2, 0);
+
+        series = new QLineSeries();
+        for( int j = 0 ; j <= y[i].size() - 1; j++){
+            series->append(x[j], y[i][j]);
+        };
+        chart = new QChart();
+        chart->legend()->hide();
+        chart->addSeries(series);
+        chart->createDefaultAxes();
+        ttl = QString::fromUtf8(x_in.c_str());
+        chart->setTitle(ttl);
+
+        chartView = new QChartView(chart);
+        chartView->setRenderHint(QPainter::Antialiasing);
+        rowLayout->addWidget(chartView, i+2, 1);
+        rowLayout->setRowStretch(i+2, 2);
+    };
+    visualizeLayout->addLayout(rowLayout, 0, 0);
+    visualizeWidget->setMinimumWidth(500);
+}
+
+void Calviz::add_Chart(QString x_val, std::vector<std::string> x_in, std::vector<std::vector<std::vector<double>>> all_rsd){
+
+    QChartView *chartView;
+    QLineSeries *series;
+    QGridLayout *rowLayout;
+    QChart *chart;
+    QLabel *chartLabel;
+    QString ttl;
+    std::string label;
+
+    rowLayout = new QGridLayout;
+    std::vector<double> x = util::parse_to_number(x_val.toStdString());
+
+    for(int i=0; i <= all_rsd[0].size() - 1; i++){
+        label = std::to_string(i+1) + " Root Squared Interval";
+        chartLabel = new QLabel(tr(label.c_str()));
+        rowLayout->addWidget(chartLabel, i+1, 0);
+        rowLayout->setRowStretch(i+1,2);
+    };
+
+    for(int i = 0; i<= x_in.size() - 1; i++){
+        if(i == 0){
+            label = "Result";
+        }else{
+            label = std::to_string(i) + " Derivative";
+        }
+        chartLabel = new QLabel(tr(label.c_str()));
+        rowLayout->addWidget(chartLabel, 0, i+1);
+        rowLayout->setColumnStretch(i+1, 3);
     }
 
+    for(int i = 0; i <= x_in.size() - 1; i++){
+        for(int a = 0; a <= all_rsd[i].size() - 1; a++){
+            series = new QLineSeries();
+            for( int j = 0 ; j <= all_rsd[i][a].size() - 1; j++){
+                series->append(x[j], all_rsd[i][a][j]);
+            };
+            chart = new QChart();
+            chart->legend()->hide();
+            chart->addSeries(series);
+            chart->createDefaultAxes();
+            ttl = QString::fromUtf8(x_in[i].c_str());
+            chart->setTitle(ttl);
+
+            chartView = new QChartView(chart);
+            chartView->setRenderHint(QPainter::Antialiasing);
+            rowLayout->addWidget(chartView, a+1, i+1);
+            rowLayout->setColumnStretch(i+1, 3);
+            rowLayout->setRowStretch(a+1, 2);
+        };
+    };
+    visualizeLayout->addLayout(rowLayout, 0, 0);
+    if(in_deriv <= 2){
+        visualizeWidget->setMinimumWidth(1500);
+    }else if(in_deriv > 2 && in_deriv <= 4){
+        visualizeWidget->setMinimumWidth(2000);
+    }else if(in_deriv > 4 && in_deriv <= 7){
+        visualizeWidget->setMinimumWidth(3000);
+    }else{
+        visualizeWidget->setMinimumWidth(4000);
+    }
 }
 
 void Calviz::on_derivativeSpinBox_Enabled(){
@@ -247,20 +374,24 @@ void Calviz::get_All_Value(){
     in_expr = exprLineEdit->text();
     in_xval = xLineEdit->text();
 
-    if(dbuttonOnce->isChecked()){
+    if(derivativeGroupBox->isChecked() && dbuttonOnce->isChecked()){
         in_deriv = 1;
-    }else if(dbuttonTwice -> isChecked()){
+    }else if(derivativeGroupBox->isChecked() && dbuttonTwice -> isChecked()){
         in_deriv = 2;
-    }else if(dbuttonOther -> isChecked()){
+    }else if(derivativeGroupBox->isChecked() && dbuttonOther -> isChecked()){
         in_deriv = derivativeSpinBox->value();
+    }else{
+        in_deriv = 0;
     };
 
-    if(rsdbuttonOnce->isChecked()){
+    if(RSDGroupBox->isChecked() && rsdbuttonOnce->isChecked()){
         in_rsd = 1;
-    }else if(rsdbuttonTwice->isChecked()){
+    }else if(RSDGroupBox->isChecked() && rsdbuttonTwice->isChecked()){
         in_rsd = 2;
-    }else if(rsdbuttonOther->isChecked()){
+    }else if(RSDGroupBox->isChecked() && rsdbuttonOther->isChecked()){
         in_rsd = RSDSpinBox->value();
+    }else{
+        in_rsd = 0;
     };
 }
 
@@ -305,8 +436,8 @@ void Calviz::do_Processing(){
         all_derivative_expr = p->get_All_Derivative_Expr();
         all_derivative_result = p->get_All_Derivative_Result();
         all_interval = p->get_All_Interval();
-        add_Chart(in_xval, all_derivative_expr, all_derivative_result, 0, "Derivative Result");
-        add_Chart(in_xval, all_derivative_expr, all_interval, 1, "Interval Result");
+        add_Chart(in_xval, all_derivative_expr, all_derivative_result, 0, "Derivative");
+        add_Chart(in_xval, all_derivative_expr, all_interval, 1, "Interval");
         delete p;
         break;
     }
@@ -319,8 +450,7 @@ void Calviz::do_Processing(){
         result = rsd->get_result_props();
         interval = rsd->getInterval();
         RSD_result = rsd->get_RSD_result();
-        all_interval = rsd->get_All_Interval();
-
+        add_Chart(in_xval, cleanExpr, RSD_result, result, interval);
         delete rsd;
         break;
     }
@@ -331,7 +461,7 @@ void Calviz::do_Processing(){
         rsd->Diff_and_RSD(in_deriv, in_rsd, in_expr.toStdString(), in_xval.toStdString());
         all_derivative_expr = rsd->get_All_Derivative_Expr();
         all_RSD_result = rsd->get_all_RSD_result();
-
+        add_Chart(in_xval, all_derivative_expr, all_RSD_result);
         delete rsd;
         break;
     }
@@ -344,17 +474,23 @@ void Calviz::do_Processing(){
 }
 
 void Calviz::clean_visualization(){
-    visualizeLayout = new QGridLayout;
+    QLayoutItem *item, *layout;
+    while((layout = visualizeLayout->takeAt(0))){
+        while((item = layout->layout()->takeAt(0))){
+            if(item->widget()){
+                delete item->widget();
+            }
+        }
+        delete layout;
+    }
 
-    visualizeWidget = new QWidget;
-    visualizeWidget->setLayout(visualizeLayout);
 }
 
 void Calviz::on_visualizeButton_clicked()
 {
-//    clean_visualization();
-    get_All_Value();
-    get_currState();
-    do_Processing();
+        clean_visualization();
+        get_All_Value();
+        get_currState();
+        do_Processing();
 }
 

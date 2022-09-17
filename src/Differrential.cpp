@@ -67,7 +67,7 @@ std::vector<std::string> Differrential::Differ_each_parse(std::vector<std::strin
     i++;
   };
   return diff_each;
-};
+}
 
 std::string Differrential::Parsed_Diff_to_Expr(std::vector<std::string> Parsed_Diff, std::vector<std::string> Operator){
   
@@ -82,7 +82,7 @@ std::string Differrential::Parsed_Diff_to_Expr(std::vector<std::string> Parsed_D
   };
 
   return Expr_Result;
-};
+}
 
 std::vector<std::tuple<std::string, std::vector<double>>> Differrential::Process(int times, std::string x_str){
   std::vector<std::string> Operator, Parse, Diff_Parse, Differ_Expr;
@@ -91,6 +91,7 @@ std::vector<std::tuple<std::string, std::vector<double>>> Differrential::Process
 
   // Preprocess 
   curr_expr = preprocessing(expression);
+  Differ_Expr.push_back(curr_expr);
 
   for(int i = 1; i <= times; i++){
     
@@ -107,4 +108,4 @@ std::vector<std::tuple<std::string, std::vector<double>>> Differrential::Process
   };
 
   return res_vec;
-};
+}
