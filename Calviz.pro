@@ -20,7 +20,6 @@ SOURCES += \
         src/Polynomial.cpp\
         src/RSD.cpp\
         src/Utility.cpp\
-        src/tmp.cpp\
         libs/tinyexpr.c\
 
 HEADERS  += include/calviz.h\

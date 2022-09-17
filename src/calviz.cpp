@@ -206,18 +206,18 @@ void Calviz::add_Chart(QString x_val, std::vector<std::string> x_in, std::vector
 
         rowLayout->addWidget(chartView, 0, i + 1);
         rowLayout->setColumnStretch(i + 1, 2);
-        rowLayout->setRowStretch(i + 1, 1);
+        rowLayout->setRowStretch(i + 1, 2);
     }
 
     visualizeLayout->addLayout(rowLayout, row, 0);
     if(in_deriv <= 2){
         visualizeWidget->setMinimumWidth(1500);
     }else if(in_deriv > 2 && in_deriv <= 4){
-        visualizeWidget->setMinimumWidth(2500);
+        visualizeWidget->setMinimumWidth(2000);
     }else if(in_deriv > 4 && in_deriv <= 7){
-        visualizeWidget->setMinimumWidth(3500);
+        visualizeWidget->setMinimumWidth(3000);
     }else{
-        visualizeWidget->setMinimumWidth(4500);
+        visualizeWidget->setMinimumWidth(4000);
     }
 }
 
@@ -281,7 +281,7 @@ void Calviz::add_Chart(QString x_val, std::string x_in, std::vector<std::vector<
         rowLayout->setRowStretch(i+2, 2);
     };
     visualizeLayout->addLayout(rowLayout, 0, 0);
-    visualizeWidget->setMinimumWidth(500);
+    visualizeWidget->setMinimumWidth(300);
 }
 
 void Calviz::add_Chart(QString x_val, std::vector<std::string> x_in, std::vector<std::vector<std::vector<double>>> all_rsd){
