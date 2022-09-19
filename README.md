@@ -46,7 +46,7 @@ Since the software still in beta, there're some limitations of it:
 * Maximum Derivative 10 levels.
 * Maximum Root Squared Derivative 10 levels.
 * Separate x value by `,` (comma).
-
+* Variable for expression should use `x`.
 
 
 # Further Development
