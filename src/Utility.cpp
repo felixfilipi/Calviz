@@ -51,15 +51,16 @@ std::string util::clean_space(const std::string &s){
 };
 
 std::string util::spacing(const std::string &s) {
-	std::string res;
-	for (int i = 0; i < s.length(); ++i) {
-		if(s[i+1] == '+' || s[i+1] == '-' || s[i] == '+' || s[i] == '-'){
-      		res += s.substr(i, 1) + " ";
-    	}else{
-      		res += s.substr(i, 1);
-    	};
-	};
-	return res;
+  std::string res;
+  for (int i = 0; i < s.length(); ++i) {
+    if(s[i+1] == '+' || s[i+1] == '-' || s[i] == '+' || s[i] == '-'){
+      res += s.substr(i, 1) + " ";
+    }else{
+      res += s.substr(i, 1);
+    };
+  };
+  
+  return res;
 };
 
 std::vector<std::string> util::split(const std::string s, char sym){
