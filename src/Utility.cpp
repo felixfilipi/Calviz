@@ -54,10 +54,10 @@ std::string util::spacing(const std::string &s) {
 	std::string res;
 	for (int i = 0; i < s.length(); ++i) {
 		if(s[i+1] == '+' || s[i+1] == '-' || s[i] == '+' || s[i] == '-'){
-      res += s.substr(i, 1) + " ";
-    }else{
-      res += s.substr(i, 1);
-    };
+      		res += s.substr(i, 1) + " ";
+    	}else{
+      		res += s.substr(i, 1);
+    	};
 	};
 	return res;
 };
